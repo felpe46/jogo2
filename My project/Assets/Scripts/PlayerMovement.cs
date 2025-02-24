@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 public class PlayerMovement : MonoBehaviour
 {
     //Movement
     public float moveSpeed;
     Rigidbody2D rb;
-    Vector2 moveDir;
+    [HideInInspector]
+    public float lastHorizontalVector;
+    [HideInInspector]
+    public float lastVerticalVector;
+    [HideInInspector]
+    public Vector2 moveDir;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,24 +24,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inputManagement();
+        InputManagement();
     }
 
     private void FixedUpdate()
     {
-        move();
+        Move();
     }
 
 
-    void inputManagement()
+    void InputManagement()
     {
         moveDir.x = Input.GetAxisRaw("Horizontal");
         moveDir.y = Input.GetAxisRaw("Vertical");
 
         moveDir = new Vector2(moveDir.x, moveDir.y).normalized;
+
+        if (moveDir.x != 0)
+        {
+            lastHorizontalVector = moveDir.x;
+        }
+
+        if (moveDir.y != 0)
+        {
+            lastVerticalVector = moveDir.y;
+        } 
     }
 
-    void move()
+    void Move()
     {
         rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
     }
