@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PropRamdomizer : MonoBehaviour
 {
@@ -20,7 +22,8 @@ public class PropRamdomizer : MonoBehaviour
         foreach (GameObject sp in propsSpawnPoints)
         {
             int rand = Random.Range(0, propPrefabs.Count);
-            Instantiate(propPrefabs[rand], sp.transform.position, Quartenion.identity);
+            GameObject prop = Instantiate(propPrefabs[rand], sp.transform.position, Quaternion.identity);
+            prop.transform.parent = sp.transform;
         }
     }
 }
